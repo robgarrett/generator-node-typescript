@@ -1,13 +1,17 @@
 {
-  "name": "generator-node-typescript",
+  "name": "@rgarrett/generator-node-typescript",
   "version": "1.0.0",
   "description": "Yeoman generator for TypeScript/NodeJS project scaffolding.",
   "main": "app/index.js",
+  "engines": {
+    "node": ">=4.2.0"
+  },
   "keywords": [
     "yeoman-generator"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp test --clean",
+    "test": "mocha tests/scenario"
   },
   "repository": {
     "type": "git",
@@ -20,6 +24,26 @@
   },
   "homepage": "https://github.com/robgarrett/generator-node-typescript#readme",
   "dependencies": {
-    "yeoman-generator": "^2.0.5"
+    "chalk": "^2.4.1",
+    "change-case": "^3.0.2",
+    "ejs": "^2.6.1",
+    "shelljs": "^0.8.2",
+    "yeoman-generator": "^2.0.5",
+    "yosay": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.3",
+    "@types/node": "^10.5.0",
+    "@types/yeoman-generator": "^2.0.3",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.5",
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.1.2",
+    "eslint": "^5.0.1",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-react": "^7.10.0",
+    "gulp": "^4.0.0",
+    "mocha": "^5.2.0"
   }
 }
