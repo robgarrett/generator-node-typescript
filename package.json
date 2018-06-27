@@ -1,0 +1,25 @@
+{
+  "name": "generator-node-typescript",
+  "version": "1.0.0",
+  "description": "Yeoman generator for TypeScript/NodeJS project scaffolding.",
+  "main": "app/index.js",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robgarrett/generator-node-typescript.git"
+  },
+  "author": "Rob Garrett",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/robgarrett/generator-node-typescript/issues"
+  },
+  "homepage": "https://github.com/robgarrett/generator-node-typescript#readme",
+  "dependencies": {
+    "yeoman-generator": "^2.0.5"
+  }
+}
