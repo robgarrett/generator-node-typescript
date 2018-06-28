@@ -9,9 +9,11 @@
   "keywords": [
     "yeoman-generator"
   ],
+  "files": [
+    "generators"
+  ],
   "scripts": {
-    "build": "gulp test --clean",
-    "test": "mocha tests/scenario"
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",

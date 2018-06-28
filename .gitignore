@@ -61,4 +61,6 @@ typings/
 .next
 
 # transpiled JavaScript
-app/lib/*
+generators/*
+!generators/templates/
+

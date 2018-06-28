@@ -5,9 +5,7 @@
     "private": true,
     "repository": "",
     "main": "app/index.js",
-    "scripts": {
-    },
+    "scripts": {},
     "dependencies": {},
     "devDependencies": {}
-  }
-
+}
