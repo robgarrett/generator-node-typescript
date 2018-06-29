@@ -1,4 +1,4 @@
-import yeoman from "yeoman-generator";
+import Generator from "yeoman-generator";
 import yosay from "yosay";
 import chalk from "chalk";
 import shift from "change-case";
@@ -10,12 +10,9 @@ import fs from "fs";
  * My Yeoman generator.
  * Influenced from: https://github.com/alexfedoseev/generator-react-sandbox-server
  */
-export default class MyGenerator extends yeoman.Base {
+export default class MyGenerator extends Generator {
     constructor(...args) {
         super(...args);
-
-        // Support for options.
-        this.option("skipPrompts");
 
         // Define dependencies for the scaffolding.
         this.npmDependencies = [];
@@ -70,47 +67,28 @@ export default class MyGenerator extends yeoman.Base {
 
     // Called when prompting the user.
     prompting() {
-        const done = this.async();
         this.log(yosay(`Welcome to ${chalk.white("node-typescript generator")}`));
         // Get the default name of the app and skip prompts option.
         const defaultAppName = shift.param(this.rootGeneratorName()) || null;
-        const skipPrompts = this.options.skipPrompts;
-        if (skipPrompts) {
-            if (!defaultAppName) {
-                this.env.console.error(chalk.red("Error, no app name"));
+        const prompts = [
+            {
+                type: "input",
+                name: "appName",
+                message: "Enter appName:",
+                default: defaultAppName
             }
-            // Store the app name.
-            this.appName = defaultAppName;
-        } else {
-            const prompts = [
-                {
-                    type: "input",
-                    name: "appName",
-                    message: "Enter appName:",
-                    default: defaultAppName
-                }
-            ];
-            // As Yeoman to prompt the user.
-            this.prompt(prompts, props => {
-                // Props are the return prompt values.
-                this.appName = shift.param(props.appName);
-                done();
-            });
-        }
+        ];
+        // Ask Yeoman to prompt the user.
+        return this.prompt(prompts).then(props => {
+            // Props are the return prompt values.
+            this.appName = shift.param(props.appName);
+        });
     }
 
-    get writing() {
-        return {
-            app() {
-                this.say.info("Setting up project...");
-                shell.mkdir(this.appName);
-                this.destinationRoot(this.appName);
-                // Copy the templates.
-                this.copy("app/", "app/");
-                // Render templates.
-                this.render("_package.json", "package.json", { appName: this.appName });
-            }
-        };
+    writing() {
+        this.say.info("Setting up project...");
+        shell.mkdir(this.appName);
+        this.destinationRoot(this.appName);
     }
 
     install() {
