@@ -62,5 +62,5 @@ typings/
 
 # transpiled JavaScript
 generators/*
-!generators/templates/
+!generators/app/templates/
 

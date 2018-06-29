@@ -1,4 +1,4 @@
-import { Base } from "yeoman-generator";
+import yeoman from "yeoman-generator";
 import yosay from "yosay";
 import chalk from "chalk";
 import shift from "change-case";
@@ -10,9 +10,12 @@ import fs from "fs";
  * My Yeoman generator.
  * Influenced from: https://github.com/alexfedoseev/generator-react-sandbox-server
  */
-export default class MyGenerator extends Base {
+export default class MyGenerator extends yeoman {
     constructor(...args) {
         super(...args);
+
+        // Support for options.
+        this.option("skipPrompts");
 
         // Define dependencies for the scaffolding.
         this.npmDependencies = [];
@@ -69,8 +72,8 @@ export default class MyGenerator extends Base {
     prompting() {
         const done = this.async();
         this.log(yosay(`Welcome to ${chalk.white("node-typescript generator")}`));
-        // Get the default name of the app and wkip prompts option.
-        const defaultAppName = shift.param(this.options.argv.original[0]) || null;
+        // Get the default name of the app and skip prompts option.
+        const defaultAppName = shift.param(this.rootGeneratorName()) || null;
         const skipPrompts = this.options.skipPrompts;
         if (skipPrompts) {
             if (!defaultAppName) {
