@@ -10,7 +10,7 @@ import fs from "fs";
  * My Yeoman generator.
  * Influenced from: https://github.com/alexfedoseev/generator-react-sandbox-server
  */
-export default class MyGenerator extends yeoman {
+export default class MyGenerator extends yeoman.Base {
     constructor(...args) {
         super(...args);
 
@@ -99,7 +99,7 @@ export default class MyGenerator extends yeoman {
         }
     }
 
-    static get writing() {
+    get writing() {
         return {
             app() {
                 this.say.info("Setting up project...");

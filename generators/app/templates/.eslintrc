@@ -46,7 +46,7 @@
             "error",
             "always"
         ],
-        "class-methods-use-this": "error",
+        "class-methods-use-this": "off",
         "comma-dangle": "error",
         "comma-spacing": [
             "error",
@@ -126,7 +126,7 @@
             "off",
             "never"
         ],
-        "newline-before-return": "error",
+        "newline-before-return": "off",
         "newline-per-chained-call": "error",
         "no-alert": "error",
         "no-array-constructor": "error",
