@@ -35,8 +35,9 @@ gulp.task("lint", () => gulp.src([
 gulp.task("build", gulp.series("clean", "lint", () => gulp.src(paths.scripts.src).
     pipe(sourcemaps.init()).
     pipe(babel()).
-    pipe(sourcemaps.write(path.join(__dirname, paths.scripts.dest))).
+    pipe(sourcemaps.write(path.join("..", paths.scripts.dest))).
     pipe(gulp.dest(paths.scripts.dest))));
 
 gulp.task("default", gulp.series("build"));
+
 
