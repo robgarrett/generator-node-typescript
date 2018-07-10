@@ -3,8 +3,7 @@ import yosay from "yosay";
 import chalk from "chalk";
 import shift from "change-case";
 import shell from "shelljs";
-import ejs from "ejs";
-import fs from "fs";
+import path from "path";
 
 /*
  * My Yeoman generator.
@@ -16,10 +15,57 @@ export default class MyGenerator extends Generator {
 
         // Define dependencies for the scaffolding.
         this.npmDependencies = [];
-        this.npmDevDependencies = [];
+        this.npmDevDependencies = [
+            "@types/express",
+            "@types/node",
+            "@types/numeral",
+            "@types/webpack",
+            "babel-cli",
+            "babel-core",
+            "babel-preset-env",
+            "browser-sync",
+            "chai",
+            "chalk",
+            "compression",
+            "css-loader",
+            "eslint",
+            "eslint-plugin-import",
+            "eslint-watch",
+            "express",
+            "extract-text-webpack-plugin",
+            "gulp",
+            "gulp-clean",
+            "gulp-debug",
+            "gulp-exec",
+            "gulp-flatten",
+            "gulp-nsp",
+            "gulp-sourcemaps",
+            "gulp-tslint",
+            "gulp-typescript",
+            "html-loader",
+            "html-webpack-plugin",
+            "mocha",
+            "nodemon",
+            "nsp",
+            "numeral",
+            "path",
+            "style-loader",
+            "ts-loader",
+            "tslint",
+            "typescript",
+            "webpack",
+            "webpack-dev-middleware",
+            "webpack-md5-hash"
+        ];
 
         // Get the latest of a list of dependencies.
-        this.getDeps = deps => deps.map(dep => dep + "@latest");
+        this.getDeps = deps => deps.map(dep => {
+            // Enforce version 4 of gulp.
+            if (dep === "gulp") {
+                return "gulp@4.0.0";
+            }
+            return dep + "@latest";
+        });
 
         // Various output statements.
         this.say = {
@@ -41,18 +87,21 @@ export default class MyGenerator extends Generator {
 
         // Copy from template src to destination.
         this.copy = (src, dest, show) => {
-            shell.cp("-Rf", this.templatePath(src), this.destinationPath(dest));
+            this.fs.copy(this.templatePath(src), this.destinationPath(dest));
             this.say.status(show || dest, "✓ ");
         };
 
         // Render a template file to a real file.
         this.render = (src, dest, params = {}) => {
-            const output = ejs.render(this.read(this.templatePath(src)), params);
-            fs.writeFileSync(this.destinationPath(dest), output);
+            this.fs.copyTpl(
+                this.templatePath(src),
+                this.destinationPath(dest),
+                params
+            );
             this.say.status(dest, "✓ ");
         };
 
-        // Exwecute a shell command.
+        // Execute a shell command.
         this.shellExec = cmd => {
             this.say.cmd(cmd);
             shell.exec(cmd);
@@ -68,6 +117,7 @@ export default class MyGenerator extends Generator {
     // Called when prompting the user.
     prompting() {
         this.log(yosay(`Welcome to ${chalk.white("node-typescript generator")}`));
+        this.sourceRoot(path.join(__dirname, "/templates"));
         // Get the default name of the app and skip prompts option.
         const defaultAppName = shift.param(this.rootGeneratorName()) || null;
         const prompts = [
@@ -89,6 +139,14 @@ export default class MyGenerator extends Generator {
         this.say.info("Setting up project...");
         shell.mkdir(this.appName);
         this.destinationRoot(this.appName);
+        this.render("_package.json", "package.json", { appName: this.appName });
+        this.copy(".babelrc", ".babelrc", true);
+        this.copy(".editorconfig", ".editorconfig", true);
+        this.copy(".gitignore", ".gitignore", true);
+        this.copy("tsconfig.json", "tsconfig.json", true);
+        this.copy("tslint.json", "tslint.json", true);
+        this.copy("gulpfile.babel.js", "gulpfile.babel.js", true);
+        this.copy("app/", "app/", true);
     }
 
     install() {

@@ -9,7 +9,7 @@ const paths = {
     scripts: {
         src: "src/**/*.js",
         dest: "generators",
-        templates: "generator/app/templates"
+        templates: "generators/app/templates"
     }
 };
 
@@ -17,7 +17,7 @@ const paths = {
 gulp.task("clean", () => gulp.src([
     paths.scripts.dest + "/**/*.js",
     paths.scripts.dest + "/**/*.js.map",
-    "!" + paths.scripts.templates
+    "!" + paths.scripts.templates + "/**/*.*"
 ], {
     read: false,
     allowEmpty: true

@@ -4,8 +4,14 @@
     "description": "",
     "private": true,
     "repository": "",
-    "main": "app/index.js",
-    "scripts": {},
+    "main": "index.js",
+    "scripts": {
+        "start": "gulp buildrun",
+        "build": "gulp build",
+        "lint": "gulp lint",
+        "test": "gulp build && mocha"
+      },
     "dependencies": {},
-    "devDependencies": {}
+    "devDependencies": {
+    }
 }
