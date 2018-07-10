@@ -1,17 +1,19 @@
 {
-    "name": "<%= appName %>",
-    "version": "1.0.0",
-    "description": "",
-    "private": true,
-    "repository": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "gulp buildrun",
-        "build": "gulp build",
-        "lint": "gulp lint",
-        "test": "gulp build && mocha"
-      },
-    "dependencies": {},
-    "devDependencies": {
-    }
+  "name": "<%= appName %>",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "repository": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp buildrun",
+    "build": "gulp build",
+    "lint": "gulp lint",
+    "test": "gulp build && mocha"
+  },
+  "engines": {
+    "node": ">=8.11.3"
+  },
+  "dependencies": {},
+  "devDependencies": {}
 }

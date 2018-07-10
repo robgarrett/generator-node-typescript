@@ -4,7 +4,7 @@
   "description": "Yeoman generator for TypeScript/NodeJS project scaffolding.",
   "main": "app/index.js",
   "engines": {
-    "node": ">=4.2.0"
+    "node": ">=8.11.3"
   },
   "keywords": [
     "yeoman-generator"
