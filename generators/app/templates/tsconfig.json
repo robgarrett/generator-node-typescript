@@ -8,14 +8,12 @@
     "lib": [
       "es6"
     ],
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "src/*": [ "app/src/*"],
-      "lib/*": [ "app/lib/*"]
     }
   },
   "include": [
-    "app/src/**/*.ts"
+    "**/*.ts"
   ],
   "exclude": [
     "node_modules",

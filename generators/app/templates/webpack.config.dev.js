@@ -1,12 +1,14 @@
-import * as path from "path";
-import * as webpack from "webpack";
+"use strict";
 
-export default {
+const path = require('path');
+const webpack = require('webpack');
+
+module.exports = {
   mode: "development",
   devtool: "inline-source-map",
   entry: [
-    // __dirname is app/lib.
-    path.resolve(__dirname, "../src/index.ts"),
+    // Entry is the main app TypeScript because webpack middleware will transpile.
+    path.resolve(__dirname, "src/app/index.ts"),
   ],
   target: "web",  // As opposed to node
   // Webpack won't actually create any files,
@@ -22,7 +24,7 @@ export default {
     new webpack.SourceMapDevToolPlugin({}),
     // Process HTML.
     new (require("html-webpack-plugin"))({
-      template: path.resolve(__dirname, "../src/index.html"),
+      template: path.resolve(__dirname, "src/app/index.html"),
       inject: true,
     }),
   ],
@@ -51,4 +53,3 @@ export default {
     ],
   },
 };
-

@@ -4,4 +4,4 @@
   required to download library code when we update our app.
 */
 
-import * as numeral from "numeral";
+

@@ -1,13 +1,14 @@
-import * as path from "path";
-import * as webpack from "webpack";
+"use strict";
 
-export default {
+const path = require('path');
+const webpack = require('webpack');
+
+module.exports = {
   mode: "production",
   devtool: "source-map",
   entry: {
-    // __dirname is app/lib.
-    vendor: path.resolve(__dirname, "../src/vendor.ts"),
-    main: path.resolve(__dirname, "../src/index.ts"),
+    vendor: path.resolve(__dirname, "src/app/vendor.ts"),
+    main: path.resolve(__dirname, "src/app/index.ts"),
   },
   optimization: {
     splitChunks: {
@@ -25,7 +26,7 @@ export default {
   // so we generate the files needed in dist folder.
   output: {
     publicPath: "/",
-    path: path.join(__dirname, "../dist"),
+    path: path.join(__dirname, "dist"),
     filename: "[name].[chunkhash].js",
   },
   plugins: [
@@ -37,7 +38,7 @@ export default {
     new webpack.SourceMapDevToolPlugin({}),
     // Process HTML.
     new (require("html-webpack-plugin"))({
-      template: path.resolve(__dirname, "../src/index.html"),
+      template: path.resolve(__dirname, "src/app/index.html"),
       inject: true,
       minify: {
         removeComments: true,
@@ -81,4 +82,3 @@ export default {
     ],
   },
 };
-

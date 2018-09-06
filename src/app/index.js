@@ -16,10 +16,13 @@ export default class MyGenerator extends Generator {
         // Define dependencies for the scaffolding.
         this.npmDependencies = [];
         this.npmDevDependencies = [
+            "@types/chai",
             "@types/express",
+            "@types/mocha",
             "@types/node",
             "@types/numeral",
             "@types/webpack",
+            "@types/webpack-dev-middleware",
             "babel-cli",
             "babel-core",
             "babel-preset-env",
@@ -38,6 +41,7 @@ export default class MyGenerator extends Generator {
             "gulp-debug",
             "gulp-exec",
             "gulp-flatten",
+            "gulp-mocha",
             "gulp-nsp",
             "gulp-sourcemaps",
             "gulp-tslint",
@@ -63,6 +67,8 @@ export default class MyGenerator extends Generator {
             // Enforce version 4 of gulp.
             if (dep === "gulp") {
                 return "gulp@4.0.0";
+            } else if (dep === "extract-text-webpack-plugin") {
+                return "extract-text-webpack-plugin@next";
             }
             return dep + "@latest";
         });
@@ -140,13 +146,15 @@ export default class MyGenerator extends Generator {
         shell.mkdir(this.appName);
         this.destinationRoot(this.appName);
         this.render("_package.json", "package.json", { appName: this.appName });
-        this.copy(".babelrc", ".babelrc", true);
-        this.copy(".editorconfig", ".editorconfig", true);
-        this.copy(".gitignore", ".gitignore", true);
-        this.copy("tsconfig.json", "tsconfig.json", true);
-        this.copy("tslint.json", "tslint.json", true);
-        this.copy("gulpfile.babel.js", "gulpfile.babel.js", true);
-        this.copy("app/", "app/", true);
+        this.copy(".babelrc", ".babelrc", false);
+        this.copy(".editorconfig", ".editorconfig", false);
+        this.copy(".gitignore", ".gitignore", false);
+        this.copy("tsconfig.json", "tsconfig.json", false);
+        this.copy("tslint.json", "tslint.json", false);
+        this.copy("gulpfile.babel.js", "gulpfile.babel.js", false);
+        this.copy("webpack.config.dev.js", "webpack.config.dev.js", false);
+        this.copy("webpack.config.dev.js", "webpack.config.prod.js", false);
+        this.copy("src/", "src/", false);
     }
 
     install() {
