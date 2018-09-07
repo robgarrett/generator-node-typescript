@@ -6,10 +6,10 @@
   "repository": "",
   "main": "index.js",
   "scripts": {
-    "start": "gulp buildrun",
+    "start": "gulp serve",
     "build": "gulp build",
     "lint": "gulp lint",
-    "test": "gulp build && mocha"
+    "test": "gulp test"
   },
   "engines": {
     "node": ">=8.11.3"

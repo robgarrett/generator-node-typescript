@@ -4,7 +4,6 @@ import path from "path";
 import gulp from "gulp";
 import tsc from "gulp-typescript";
 import { exec } from "child_process";
-import gulpNSP from "gulp-nsp";
 import tslint from "gulp-tslint";
 import clean from "gulp-clean";
 import mocha from "gulp-mocha";
@@ -48,9 +47,6 @@ gulp.task("lint", function doWork() {
 });
 
 // ** Compilation ** //
-gulp.task("nsp:check", function doWork(done) {
-  gulpNSP({ package: path.resolve(__dirname , "package.json") }, done);
-});
 gulp.task("compile:typescript", function doWork() {
   var project = tsc.createProject("tsconfig.json", { declaration: true });
   var built = gulp.src(paths.tscripts.srcFiles)
@@ -61,7 +57,7 @@ gulp.task("compile:typescript", function doWork() {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.tscripts.destDir));
 });
-gulp.task("build", gulp.series("clean", /*"nsp:check",*/ "lint", "compile:typescript"));
+gulp.task("build", gulp.series("clean", "lint", "compile:typescript"));
 
 // ** Serve **
 gulp.task("serveSrc", function doWork(done) {
