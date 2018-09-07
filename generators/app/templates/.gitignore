@@ -49,4 +49,8 @@ db.json
 **/.DS_Store
 
 # Transpiled files.
-app/lib/*.js
+lib/*
+
+# Webpack files
+dist/*
+
