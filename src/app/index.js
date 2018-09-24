@@ -42,6 +42,8 @@ export default class MyGenerator extends Generator {
             "gulp-exec",
             "gulp-flatten",
             "gulp-mocha",
+            "gulp-nodemon",
+            "gulp-rename",
             "gulp-sourcemaps",
             "gulp-tslint",
             "gulp-typescript",
