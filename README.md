@@ -5,7 +5,8 @@ My own Yeoman generator for TypeScript and NodeJS scaffolding.
 1. Clone this repo.
 2. npm i
 3. npm run build
-4. Run yo from a new folder.
+4. npm link
+5. Run yo from a new folder.
 
 ## Details
 This generator contains the following files, and decription of each, as follows:
