@@ -14,28 +14,21 @@ export default class MyGenerator extends Generator {
         super(...args);
 
         // Define dependencies for the scaffolding.
-        this.npmDependencies = [];
-        this.npmDevDependencies = [
+        this.npmCommonDependencies = [];
+        this.npmWebAppDependencies = [];
+        this.npmCommonDevDependencies = [
             "@types/chai",
-            "@types/express",
             "@types/mocha",
             "@types/node",
             "@types/numeral",
-            "@types/webpack",
-            "@types/webpack-dev-middleware",
             "babel-cli",
             "babel-core",
             "babel-preset-env",
-            "browser-sync",
             "chai",
             "chalk",
-            "compression",
-            "css-loader",
             "eslint",
             "eslint-plugin-import",
             "eslint-watch",
-            "express",
-            "extract-text-webpack-plugin",
             "gulp",
             "gulp-clean",
             "gulp-debug",
@@ -47,16 +40,26 @@ export default class MyGenerator extends Generator {
             "gulp-sourcemaps",
             "gulp-tslint",
             "gulp-typescript",
-            "html-loader",
-            "html-webpack-plugin",
             "mocha",
             "nodemon",
             "numeral",
             "path",
-            "style-loader",
             "ts-loader",
             "tslint",
-            "typescript",
+            "typescript"
+        ];
+        this.npmWebAppDevDependencies = [
+            "@types/express",
+            "@types/webpack",
+            "@types/webpack-dev-middleware",
+            "browser-sync",
+            "compression",
+            "css-loader",
+            "express",
+            "extract-text-webpack-plugin",
+            "html-loader",
+            "html-webpack-plugin",
+            "style-loader",
             "webpack",
             "webpack-dev-middleware",
             "webpack-md5-hash"
@@ -123,7 +126,6 @@ export default class MyGenerator extends Generator {
     // Called when prompting the user.
     prompting() {
         this.log(yosay(`Welcome to ${chalk.white("node-typescript generator")}`));
-        this.sourceRoot(path.join(__dirname, "/templates"));
         // Get the default name of the app and skip prompts option.
         const defaultAppName = shift.param(this.rootGeneratorName()) || null;
         const prompts = [
@@ -132,17 +134,33 @@ export default class MyGenerator extends Generator {
                 name: "appName",
                 message: "Enter appName:",
                 default: defaultAppName
+            },
+            {
+                type: "list",
+                name: "appType",
+                message: "Select application type:",
+                default: "webApp",
+                choices: [
+                    "webApp",
+                    "serverApp"
+                ]
             }
         ];
         // Ask Yeoman to prompt the user.
         return this.prompt(prompts).then(props => {
             // Props are the return prompt values.
             this.appName = shift.param(props.appName);
+            this.appType = shift.param(props.appType);
         });
     }
 
     writing() {
         this.say.info("Setting up project...");
+        if (this.appType === "webApp") {
+            this.sourceRoot(path.join(__dirname, "/templates/webApp"));
+        } else {
+            this.sourceRoot(path.join(__dirname, "/templates/serverApp"));
+        }
         shell.mkdir(this.appName);
         this.destinationRoot(this.appName);
         this.render("_package.json", "package.json", { appName: this.appName });
@@ -152,14 +170,27 @@ export default class MyGenerator extends Generator {
         this.copy("tsconfig.json", "tsconfig.json", false);
         this.copy("tslint.json", "tslint.json", false);
         this.copy("gulpfile.babel.js", "gulpfile.babel.js", false);
-        this.copy("webpack.config.dev.js", "webpack.config.dev.js", false);
-        this.copy("webpack.config.dev.js", "webpack.config.prod.js", false);
+        if (this.appType === "webApp") {
+            this.copy("webpack.config.dev.js", "webpack.config.dev.js", false);
+            this.copy("webpack.config.dev.js", "webpack.config.prod.js", false);
+        }
         this.copy("src/", "src/", false);
     }
 
     install() {
-        const deps = this.getDeps(this.npmDependencies);
-        const devDeps = this.getDeps(this.npmDevDependencies);
+        let deps = this.getDeps(this.npmCommonDependencies);
+        let devDeps = this.getDeps(this.npmCommonDevDependencies);
+        // Web app has additional dependencies.
+        if (this.appType === "webApp") {
+            deps = [
+                ...deps,
+                ...this.getDeps(this.npmWebAppDependencies)
+            ];
+            devDeps = [
+                ...devDeps,
+                ...this.getDeps(this.npmWebAppDevDependencies)
+            ];
+        }
         this.say.info("Installing dependencies...");
         this.npmInstall(deps, { save: true });
         this.npmInstall(devDeps, { saveDev: true }, () => {
