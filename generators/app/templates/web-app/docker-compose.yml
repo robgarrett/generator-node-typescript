@@ -1,0 +1,29 @@
+version: "3"
+services:
+  app:
+    build: .
+    ports:
+      # Exposed ports for web traffic.
+      - "5000:80"
+      # React hot reloading.
+      - "7331:7331"
+      # Legacy debug port.
+      - "5858:5858"
+      # Debug port.
+      - "9229:9229"
+    volumes:
+      # Map local folder on host to /opt/app on container.
+      # Allows for updates sync'd to container without rebuilding.
+      # Persisted between container executions.
+      - .:/opt/app
+      # Make sure that node_modules not influenced by that of the host
+      # system, by mapping to a container volume, which is persisted
+      # between container executions.
+      - reserved:/opt/app/node_modules/
+    # CMD called when docker-compose creates the image.
+    entrypoint:
+      - npm
+      - start
+# Volumes persist data after image creation.
+volumes:
+  reserved:

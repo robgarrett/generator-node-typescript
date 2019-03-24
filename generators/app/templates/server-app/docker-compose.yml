@@ -1,0 +1,20 @@
+version: "3"
+services:
+  app:
+    build: .
+    volumes:
+      # Map local folder on host to /opt/app on container.
+      # Allows for updates sync'd to container without rebuilding.
+      # Persisted between container executions.
+      - .:/opt/app
+      # Make sure that node_modules not influenced by that of the host
+      # system, by mapping to a container volume, which is persisted
+      # between container executions.
+      - reserved:/opt/app/node_modules/
+    # CMD called when docker-compose creates the image.
+    entrypoint:
+      - npm
+      - start
+# Volumes persist data after image creation.
+volumes:
+  reserved:
