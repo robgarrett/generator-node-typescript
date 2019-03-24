@@ -139,10 +139,10 @@ export default class MyGenerator extends Generator {
                 type: "list",
                 name: "appType",
                 message: "Select application type:",
-                default: "webApp",
+                default: "web-app",
                 choices: [
-                    "webApp",
-                    "serverApp"
+                    "web-app",
+                    "server-app"
                 ]
             }
         ];
@@ -156,10 +156,11 @@ export default class MyGenerator extends Generator {
 
     writing() {
         this.say.info("Setting up project...");
-        if (this.appType === "webApp") {
-            this.sourceRoot(path.join(__dirname, "/templates/webApp"));
+        this.say.info("App type is " + this.appType);
+        if (this.appType === "web-app") {
+            this.sourceRoot(path.join(__dirname, "/templates/web-app"));
         } else {
-            this.sourceRoot(path.join(__dirname, "/templates/serverApp"));
+            this.sourceRoot(path.join(__dirname, "/templates/server-app"));
         }
         shell.mkdir(this.appName);
         this.destinationRoot(this.appName);
@@ -170,7 +171,7 @@ export default class MyGenerator extends Generator {
         this.copy("tsconfig.json", "tsconfig.json", false);
         this.copy("tslint.json", "tslint.json", false);
         this.copy("gulpfile.babel.js", "gulpfile.babel.js", false);
-        if (this.appType === "webApp") {
+        if (this.appType === "web-app") {
             this.copy("webpack.config.dev.js", "webpack.config.dev.js", false);
             this.copy("webpack.config.dev.js", "webpack.config.prod.js", false);
         }
@@ -181,7 +182,7 @@ export default class MyGenerator extends Generator {
         let deps = this.getDeps(this.npmCommonDependencies);
         let devDeps = this.getDeps(this.npmCommonDevDependencies);
         // Web app has additional dependencies.
-        if (this.appType === "webApp") {
+        if (this.appType === "web-app") {
             deps = [
                 ...deps,
                 ...this.getDeps(this.npmWebAppDependencies)
