@@ -1,0 +1,19 @@
+{
+  "name": "<%= appName %>",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "repository": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp run",
+    "build": "gulp build",
+    "lint": "gulp lint",
+    "test": "gulp test"
+  },
+  "engines": {
+    "node": ">=8.11.3"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

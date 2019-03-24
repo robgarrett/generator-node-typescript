@@ -166,6 +166,7 @@ export default class MyGenerator extends Generator {
         this.destinationRoot(this.appName);
         this.render("_package.json", "package.json", { appName: this.appName });
         this.copy(".babelrc", ".babelrc", false);
+        this.copy(".eslintrc", ".eslintrc", false);
         this.copy(".editorconfig", ".editorconfig", false);
         this.copy(".gitignore", ".gitignore", false);
         this.copy("tsconfig.json", "tsconfig.json", false);
