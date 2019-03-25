@@ -1,16 +1,14 @@
-version: "3"
+version: "3.5"
 services:
-  app:
+  test-app:
     build: .
+    image: <%= appName %>:dev
+    networks:
+      - <%= appName %>.net
+    container_name: "<%= appName %>"
     ports:
-      # Exposed ports for web traffic.
-      - "5000:80"
-      # React hot reloading.
-      - "7331:7331"
-      # Legacy debug port.
-      - "5858:5858"
-      # Debug port.
-      - "9229:9229"
+      # Exposed ports server traffic.
+      - "5000:5000"
     volumes:
       # Map local folder on host to /opt/app on container.
       # Allows for updates sync'd to container without rebuilding.
@@ -27,3 +25,8 @@ services:
 # Volumes persist data after image creation.
 volumes:
   reserved:
+# Networks
+networks:
+  test-app.net:
+    name: "<%= appName %>.net"
+    driver: "bridge"
