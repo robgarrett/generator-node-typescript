@@ -15,5 +15,5 @@ COPY . /opt/app
 ENV PORT 3000
 EXPOSE 3000
 
-# Ru the app.
-CMD ["npm", "start"]
+# Run the app.
+ENTRYPOINT [ "/opt/app/node_modules/.bin/gulp", "serve:dist" ]

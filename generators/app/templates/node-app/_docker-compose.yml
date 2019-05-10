@@ -1,6 +1,6 @@
 version: "3.5"
 services:
-  test-app:
+  <%= appName %>:
     build: .
     image: <%= appName %>:dev
     networks:
@@ -26,13 +26,13 @@ services:
       - reserved:/opt/app/node_modules/
     # CMD called when docker-compose creates the image.
     entrypoint:
-      - npm
-      - start
+      - /opt/app/node_modules/.bin/gulp
+      - serve:dist
 # Volumes persist data after image creation.
 volumes:
   reserved:
 # Networks
 networks:
-  test-app.net:
+  <%= appName %>.net:
     name: "<%= appName %>.net"
     driver: "bridge"
