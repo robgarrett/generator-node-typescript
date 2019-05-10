@@ -91,9 +91,6 @@ gulp.task("serveSrc", function doServeSrcWork(done) {
           console.log(`File ${element} changed`);
         });
       }
-      if (browserSync.active) {
-        browserSync.notify("Recompiling, please wait", 5000);
-      }
       return ["compile:typescript"];
     }
   }).on("start", function () {
@@ -107,9 +104,7 @@ gulp.task("serveSrc", function doServeSrcWork(done) {
     }
   }).on("restart", function () {
     setTimeout(function () {
-      // When nodemon restarts the server, instruct browsersync to reload.
-      browserSync.notify("Reloading");
-      browserSync.reload({ stream: false });
+      // Do something here when nodemon restarts.
       done();
     }, 2000);
   });

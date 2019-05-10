@@ -1,0 +1,34 @@
+version: "3.5"
+services:
+  <%= appName %>:
+    build: .
+    image: <%= appName %>:dev
+    networks:
+      - <%= appName %>.net
+    container_name: "<%= appName %>"
+    ports:
+      # Exposed ports for web traffic.
+      - "3000:80"
+      # React hot reloading.
+      - "7331:7331"
+      # Legacy debug port.
+      - "5858:5858"
+      # Debug port.
+      - "9229:9229"
+    volumes:
+      # Map local folder on host to container.
+      # Allows for updates sync'd to container without rebuilding.
+      # Persisted between container executions.
+      - ./dist:/home/site/wwwroot
+      # Make sure that node_modules not influenced by that of the host
+      # system, by mapping to a container volume, which is persisted
+      # between container executions.
+      - reserved:/home/site/wwwroot/node_modules/
+# Volumes persist data after image creation.
+volumes:
+  reserved:
+# Networks
+networks:
+  <%= appName %>.net:
+    name: "<%= appName %>.net"
+    driver: "bridge"

@@ -80,7 +80,8 @@ export default class MyGenerator extends Generator {
                 choices: [
                     "web-app",
                     "server-app",
-                    "node-app"
+                    "node-app",
+                    "azure-func"
                 ]
             }
         ];
@@ -104,6 +105,8 @@ export default class MyGenerator extends Generator {
             this.sourceRoot(path.join(__dirname, "/templates/web-app"));
         } else if (this.appType === "node-app") {
             this.sourceRoot(path.join(__dirname, "/templates/node-app"));
+        } else if (this.appType === "azure-func") {
+            this.sourceRoot(path.join(__dirname, "/templates/azure-func"));
         } else {
             this.sourceRoot(path.join(__dirname, "/templates/server-app"));
         }
@@ -120,11 +123,15 @@ export default class MyGenerator extends Generator {
         this.copy("tsconfig.json", "tsconfig.json", false);
         this.copy("tslint.json", "tslint.json", false);
         this.copy("gulpfile.babel.js", "gulpfile.babel.js", false);
-        if (this.appType !== "server-app") {
+        if (this.appType !== "server-app" && this.appType !== "azure-func") {
             this.copy("webpack.config.dev.js", "webpack.config.dev.js", false);
             this.copy("webpack.config.prod.js", "webpack.config.prod.js", false);
+        } else if (this.appType === "azure-func") {
+            this.copy("host.json", "host.json", false);
+            this.copy("local.settings.json", "local.settings.json", false);
+            this.copy(".funcignore", ".funcignore", false);
         }
-        this.copy("src/", "src/", false);
+        this.copy("echo/", "echo/", false);
     }
 
     install() {
