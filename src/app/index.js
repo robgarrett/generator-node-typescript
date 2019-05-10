@@ -79,7 +79,8 @@ export default class MyGenerator extends Generator {
                 default: "web-app",
                 choices: [
                     "web-app",
-                    "server-app"
+                    "server-app",
+                    "node-app"
                 ]
             }
         ];
@@ -101,6 +102,8 @@ export default class MyGenerator extends Generator {
         this.say.info("App type is " + this.appType);
         if (this.appType === "web-app") {
             this.sourceRoot(path.join(__dirname, "/templates/web-app"));
+        } else if (this.appType === "node-app") {
+            this.sourceRoot(path.join(__dirname, "/templates/node-app"));
         } else {
             this.sourceRoot(path.join(__dirname, "/templates/server-app"));
         }
@@ -108,6 +111,8 @@ export default class MyGenerator extends Generator {
         this.destinationRoot(this.appName);
         this.render("_package.json", "package.json", { appName: this.appName });
         this.render("_docker-compose.yml", "docker-compose.yml", { appName: this.appName });
+        this.copy(".dockerignore", ".dockerignore", false);
+        this.copy("Dockerfile", "Dockerfile", false);
         this.copy(".babelrc", ".babelrc", false);
         this.copy(".eslintrc", ".eslintrc", false);
         this.copy(".editorconfig", ".editorconfig", false);
@@ -115,9 +120,9 @@ export default class MyGenerator extends Generator {
         this.copy("tsconfig.json", "tsconfig.json", false);
         this.copy("tslint.json", "tslint.json", false);
         this.copy("gulpfile.babel.js", "gulpfile.babel.js", false);
-        if (this.appType === "web-app") {
+        if (this.appType !== "server-app") {
             this.copy("webpack.config.dev.js", "webpack.config.dev.js", false);
-            this.copy("webpack.config.dev.js", "webpack.config.prod.js", false);
+            this.copy("webpack.config.prod.js", "webpack.config.prod.js", false);
         }
         this.copy("src/", "src/", false);
     }
