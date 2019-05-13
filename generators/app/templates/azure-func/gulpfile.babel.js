@@ -76,10 +76,5 @@ gulp.task("run-tests", function doTestsWork() {
 });
 gulp.task("test", gulp.series("build", "run-tests"));
 
-// ** Run ** //
-gulp.task("start", gulp.series("build", function doRunWork() {
-
-}));
-
 // ** Default ** //
 gulp.task("default", gulp.series("build"));

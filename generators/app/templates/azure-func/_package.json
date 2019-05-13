@@ -6,7 +6,7 @@
   "repository": "",
   "main": "index.js",
   "scripts": {
-    "start": "gulp start",
+    "start": "gulp build && docker-compose up",
     "build": "gulp build",
     "lint": "gulp lint",
     "test": "gulp test"
