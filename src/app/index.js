@@ -76,12 +76,13 @@ export default class MyGenerator extends Generator {
                 type: "list",
                 name: "appType",
                 message: "Select application type:",
-                default: "web-app",
+                default: "console-app",
                 choices: [
                     "web-app",
                     "server-app",
                     "node-app",
-                    "azure-func"
+                    "azure-func",
+                    "console-app"
                 ]
             }
         ];
@@ -107,15 +108,19 @@ export default class MyGenerator extends Generator {
             this.sourceRoot(path.join(__dirname, "/templates/node-app"));
         } else if (this.appType === "azure-func") {
             this.sourceRoot(path.join(__dirname, "/templates/azure-func"));
-        } else {
+        } else if (this.appType === "server-app") {
             this.sourceRoot(path.join(__dirname, "/templates/server-app"));
+        } else {
+            this.sourceRoot(path.join(__dirname, "/templates/console-app"));
         }
         shell.mkdir(this.appName);
         this.destinationRoot(this.appName);
         this.render("_package.json", "package.json", { appName: this.appName });
-        this.render("_docker-compose.yml", "docker-compose.yml", { appName: this.appName });
-        this.copy(".dockerignore", ".dockerignore", false);
-        this.copy("Dockerfile", "Dockerfile", false);
+        if (this.appType !== "console-app") {
+            this.render("_docker-compose.yml", "docker-compose.yml", { appName: this.appName });
+            this.copy(".dockerignore", ".dockerignore", false);
+            this.copy("Dockerfile", "Dockerfile", false);
+        }
         this.copy(".babelrc", ".babelrc", false);
         this.copy(".eslintrc", ".eslintrc", false);
         this.copy(".editorconfig", ".editorconfig", false);
@@ -123,15 +128,20 @@ export default class MyGenerator extends Generator {
         this.copy("tsconfig.json", "tsconfig.json", false);
         this.copy("tslint.json", "tslint.json", false);
         this.copy("gulpfile.babel.js", "gulpfile.babel.js", false);
-        if (this.appType !== "server-app" && this.appType !== "azure-func") {
+        if (this.appType !== "server-app" &&
+            this.appType !== "azure-func" &&
+            this.appType !== "console-app") {
             this.copy("webpack.config.dev.js", "webpack.config.dev.js", false);
             this.copy("webpack.config.prod.js", "webpack.config.prod.js", false);
         } else if (this.appType === "azure-func") {
             this.copy("host.json", "host.json", false);
             this.copy("local.settings.json", "local.settings.json", false);
             this.copy(".funcignore", ".funcignore", false);
+            this.copy("echo/", "echo/", false);
         }
-        this.copy("echo/", "echo/", false);
+        if (this.appType !== "azure-func") {
+            this.copy("src/", "src/", false);
+        }
     }
 
     install() {

@@ -59,7 +59,7 @@ gulp.task("compile:typescript", function doCompileWork() {
 });
 gulp.task("build", gulp.series("clean", "lint", "preprocess", "compile:typescript"));
 
-// ** Rub **
+// ** Run **
 gulp.task("doRun", function doRunWork(done) {
   // Launch service (using nodemon to monitor).
   var called = false;
