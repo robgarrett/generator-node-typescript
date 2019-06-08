@@ -21,8 +21,8 @@ var node;
 var paths = {
   tscripts: {
     // All source files, including unit tests.
-    srcFiles: [ "src/**/*.ts" ],
-    testSrcFiles: [ "src/**/*.test.ts"],
+    srcFiles: ["src/**/*.ts"],
+    testSrcFiles: ["src/**/*.test.ts"],
     destDir: "lib",
     packageDir: "dist",
   }
@@ -63,7 +63,10 @@ gulp.task("compile:tests", function doCompileWork() {
     .pipe(sourcemaps.init())
     .pipe(project());
   return built.js
-    // Write inline source maps.
+    .pipe(sourcemaps.mapSources(function (sourcePath) {
+      // Make sure the source path is correct.
+      return '../' + sourcePath;
+    }))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.tscripts.destDir));
 });
@@ -144,5 +147,5 @@ gulp.task("test", gulp.series("clean", "lint", "preprocess", "compile:tests", "r
 // ** Default ** //
 gulp.task("serve", gulp.series("build", "serveSrc"));
 gulp.task("default", gulp.series(
-  "clean", "lint", "preprocess", "compile:typescript", 
+  "clean", "lint", "preprocess", "compile:typescript",
   "compile:tests", "run-tests", "serveSrc"));

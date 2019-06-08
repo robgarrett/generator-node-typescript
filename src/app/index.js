@@ -142,6 +142,7 @@ export default class MyGenerator extends Generator {
         if (this.appType !== "azure-func") {
             this.copy("src/", "src/", false);
         }
+        this.copy(".vscode/", ".vscode/", false);
     }
 
     install() {

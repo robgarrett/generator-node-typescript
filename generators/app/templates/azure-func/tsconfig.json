@@ -1,23 +1,13 @@
 {
   "compilerOptions": {
-    "strict": true,
+    "target": "es5",
     "module": "commonjs",
     "removeComments": true,
-    "sourceMap": true,
-    "target": "es5",
     "outDir": "lib",
+    "sourceMap": true,
     "lib": [
-      "es6"
-    ],
-    "baseUrl": "src",
-    "paths": {
-    }
-  },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts",
-  ]
+      "es5",
+      "es2015"
+    ]
+  }
 }
