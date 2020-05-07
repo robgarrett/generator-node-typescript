@@ -1,7 +1,7 @@
 import Generator from "yeoman-generator";
 import yosay from "yosay";
 import chalk from "chalk";
-import shift from "change-case";
+import * as shift from "change-case";
 import shell from "shelljs";
 import path from "path";
 
@@ -64,7 +64,7 @@ export default class MyGenerator extends Generator {
     prompting() {
         this.log(yosay(`Welcome to ${chalk.white("node-typescript generator")}`));
         // Get the default name of the app and skip prompts option.
-        const defaultAppName = shift.param(this.rootGeneratorName()) || null;
+        const defaultAppName = shift.paramCase(this.rootGeneratorName()) || null;
         const prompts = [
             {
                 type: "input",
@@ -94,8 +94,8 @@ export default class MyGenerator extends Generator {
          */
         return this.prompt(prompts).then(props => {
             // Props are the return prompt values.
-            this.appName = shift.param(props.appName);
-            this.appType = shift.param(props.appType);
+            this.appName = shift.paramCase(props.appName);
+            this.appType = shift.paramCase(props.appType);
         });
     }
 
