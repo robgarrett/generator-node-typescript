@@ -28,7 +28,7 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "change-case": "^4.1.1",
-    "shelljs": "^0.8.4",
+    "shelljs": "^0.8.5",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
